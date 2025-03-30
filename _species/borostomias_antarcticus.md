@@ -10,7 +10,7 @@ family:
 individuals:
   - short_name: fBorAnt1
     biosample_id: SAMEA8748812
-    sex: male
+    sex:
 project: [ vgp ]
 layout: species
 image: /assets/img/borostomias_antarcticus.jpg

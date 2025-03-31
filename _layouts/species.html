@@ -36,8 +36,8 @@ layout: default
   }
 
   #table-resources thead {
-    background-color: #007bff;
-    color: white;
+    background-color: #ddd; /* Szare tło */
+    color: #000; /* Czarny tekst */
   }
 
   #table-resources tbody tr:nth-child(even) {
@@ -68,12 +68,22 @@ layout: default
     background-color: #ddd;
   }
 
-  #species-image {
+  .image-container {
     float: right;
+    margin: 0 0 20px 20px;
+    text-align: center;
+  }
+
+  .image-container img {
     max-width: 200px;
     height: auto;
-    margin: 0 0 20px 20px;
     border-radius: 5px;
+  }
+
+  .image-container small {
+    display: block;
+    font-size: 0.8em;
+    color: #555;
   }
 
   #social-icons {
@@ -84,12 +94,147 @@ layout: default
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 1000;
   }
 
   #social-icons a {
     color: #333;
     font-size: 24px;
   }
+
+  #table-resources a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  #table-resources a:hover {
+    text-decoration: underline;
+  }
+
+  .toc-link:hover {
+    background-color: #f0f0f0;
+  }
+
+  .fab {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .fab-facebook:before {
+    content: "\f09a";
+  }
+
+  .fab-twitter:before {
+    content: "\f099";
+  }
+
+  .fab-instagram:before {
+    content: "\f16d";
+  }
+</style>
+
+<div class="container">
+  <div class="left-column">
+    <h2>Spis treści</h2>
+    <ul id="toc">
+      <li><a href="#species-name" class="toc-link">Nazwa gatunku</a></li>
+      <li><a href="#taxonomy" class="toc-link">Taksonomia</a></li>
+      <li><a href="#sequenced-resources" class="toc-link">Zsekwencjonowane zasoby</a></li>
+      <li><a href="#species-information" class="toc-link">Informacje o gatunku</a></li>
+    </ul>
+  </div>
+  <div class="right-column">
+    <div class="header-section" id="species-name">
+      <h1>{{ page.name }}</h1>
+    </div>
+    <div class="image-container">
+      <img id="species-image" src="{{ page.image | relative_url}}" alt="{{ page.image_attribution }}" />
+      <small>{{ page.image_attribution }}</small>
+    </div>
+    <section id="taxonomy">
+      <h2>Taksonomia</h2>
+      <p>
+        Rząd: {{ page.order.name }}<br />
+        Rodzina: {{ page.family.name }}<br />
+        Nazwa gatunku: {{ page.name }} (<i>{{ page.common_name }}</i>)
+      </p>
+    </section>
+    <section id="sequenced-resources">
+      <h2>Zsekwencjonowane zasoby</h2>
+      <table id="table-resources">
+        <thead>
+          <tr>
+            <th>Typ danych</th>
+            <th>Indywidualny</th>
+            <th>Zasady</th>
+            <th>Pokrycie</th>
+            <th>Rozmiar</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sample in page.samples %}
+          <tr>
+            <td>{{ sample.datatype }}</td>
+            <td>{{ sample.individual }}</td>
+            <td>{{ sample.bases }}</td>
+            <td>{{ sample.coverage }}</td>
+            <td>{{ sample.bytes }}</td>
+            <td>
+              <a href="{{ sample.url }}">Zobacz zasoby</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    <section id="species-information">
+      <h2>Informacje o gatunku</h2>
+      {{ content }}
+    </section>
+  </div>
+</div>
+
+<div id="social-icons">
+  <a href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i></a>
+  <a href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i></a>
+  <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toc = document.getElementById("toc");
+    const sections = document.querySelectorAll("section");
+
+    function updateToc() {
+      const currentSectionId = Array.from(sections)
+        .reverse()
+        .find((section) => {
+          const sectionTop = section.offsetTop;
+          const scrollY = window.scrollY;
+          return sectionTop <= scrollY + 100;
+        })?.getAttribute("id");
+
+      const tocLinks = toc.querySelectorAll("a");
+      tocLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").slice(1) === currentSectionId) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateToc);
+  });
+</script>
 
   #table-resources a {
     display: inline-flex;

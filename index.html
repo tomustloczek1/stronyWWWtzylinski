@@ -1,110 +1,207 @@
---- 
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
----
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.title | default: "Lista Gatunków" }}</title>
+    <style>
+        /* --- Globalne Style (jak w species.html) --- */
+        body {
+            font-family: 'Arial', sans-serif; /* Ujednolicona czcionka */
+            background-color: #f9f9f9; /* Ujednolicone tło */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
-<style>
-  body {
-    font-family: sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-  }
+        /* --- Kontener główny (jak w species.html, ale bez flex) --- */
+        .container {
+            display: block; /* Zamiast flex */
+            width: 90%; /* Szerokość kontenera */
+            max-width: 1400px; /* Maksymalna szerokość */
+            margin: 20px auto; /* Centrowanie i marginesy */
+            background-color: #fff; /* Białe tło */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Cień */
+            border-radius: 8px; /* Zaokrąglone rogi */
+            padding: 20px; /* Wewnętrzny margines */
+            box-sizing: border-box;
+        }
 
-  table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
-  }
+        /* --- Nagłówek strony --- */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
 
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+        /* --- Tabela Gatunków (style jak w #resources w species.html) --- */
+        #species-table {
+            width: 100%; /* Tabela zajmuje całą szerokość kontenera */
+            border-collapse: collapse;
+            margin-top: 20px;
+            /* Usunięto cień tabeli, bo kontener ma już cień */
+        }
 
-  thead {
-    background-color: #007bff;
-    color: white;
-  }
+        #species-table th,
+        #species-table td {
+            padding: 12px 15px; /* Dopasowany padding */
+            text-align: left;
+            border-bottom: 1px solid #eee; /* Subtelna linia dolna */
+            vertical-align: middle; /* Wyrównanie w pionie do środka */
+        }
 
-  th {
-    font-weight: bold;
-  }
+        #species-table thead th {
+            background-color: #e9ecef; /* Tło nagłówka tabeli */
+            color: #495057;
+            font-weight: bold;
+        }
 
-  tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+        /* Stylizacja wierszy parzystych */
+        #species-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Jasnoszare tło */
+        }
+        /* Stylizacja wierszy nieparzystych */
+         #species-table tbody tr:nth-child(odd) {
+            background-color: #fff; /* Białe tło */
+        }
 
-  img {
-    max-width: 100px;
-    height: auto;
-    border-radius: 5px;
-  }
+        /* --- Stylizacja obrazków w tabeli --- */
+        #species-table img {
+            max-width: 100px; /* Maksymalna szerokość obrazka */
+            height: auto;
+            border-radius: 5px; /* Lekko zaokrąglone rogi */
+            display: block; /* Aby umożliwić marginesy i uniknąć dodatkowej przestrzeni */
+        }
 
-  .bionano {
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    background-color: red;
-    color: white;
-    padding: 2px 5px;
-    font-size: 0.7em;
-  }
+        /* --- Stylizacja atrybucji obrazka --- */
+        #species-table small {
+            font-size: 0.8em;
+            color: #666;
+            display: block; /* W nowej linii */
+            margin-top: 4px; /* Mały odstęp od obrazka */
+        }
 
-  .table-container {
-    position: relative;
-  }
+        /* --- Stylizacja odznaki "Bionano" --- */
+        /* Ustawienie pozycji względnej dla komórki, aby absolutne pozycjonowanie odznaki działało poprawnie */
+        #species-table td.bionano-cell {
+             position: relative;
+             /* Upewnij się, że komórka nie ma overflow: hidden */
+        }
 
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    margin-top: 20px;
-  }
-</style>
+        .bionano-badge {
+            position: absolute;
+            top: 5px; /* Dostosuj wg potrzeby, aby wystawało */
+            left: 5px; /* Dostosuj wg potrzeby, aby wystawało */
+            background-color: red;
+            color: white;
+            padding: 2px 5px;
+            font-size: 0.7em;
+            border-radius: 3px;
+            z-index: 1; /* Aby było nad innymi elementami komórki */
+            font-weight: bold;
+        }
 
+        /* --- Stopka (jak w species.html) --- */
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: #333;
+            color: white;
+            font-size: 0.9em;
+            /* Zaokrąglenie rogów pasujące do kontenera - dodane wewnątrz kontenera */
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            /* Poprawka: Stopka powinna być poza głównym paddingiem kontenera */
+            margin-left: -20px; /* Kompensacja paddingu kontenera */
+            margin-right: -20px; /* Kompensacja paddingu kontenera */
+            margin-bottom: -20px; /* Kompensacja paddingu kontenera */
+        }
+
+         /* --- Dostosowania dla mniejszych ekranów --- */
+         @media (max-width: 768px) {
+             .container {
+                 width: 95%;
+                 padding: 15px;
+             }
+             #species-table th,
+             #species-table td {
+                 padding: 8px 10px;
+                 font-size: 0.9em; /* Mniejsza czcionka w tabeli */
+             }
+             #species-table img {
+                 max-width: 70px; /* Mniejsze obrazki */
+             }
+             h1 {
+                 font-size: 1.5em;
+             }
+             /* Poprawka dla stopki na małych ekranach */
+             footer {
+                margin-left: -15px;
+                margin-right: -15px;
+                margin-bottom: -15px;
+             }
+             .bionano-badge {
+                 top: 2px;
+                 left: 2px;
+                 font-size: 0.6em;
+             }
+         }
+          @media (max-width: 480px) {
+             /* Można dodać dalsze uproszczenia dla bardzo małych ekranów, np. ukryć kolumny */
+             #species-table th:nth-child(4), /* Ukryj Rząd */
+             #species-table td:nth-child(4),
+             #species-table th:nth-child(5), /* Ukryj Rodzina */
+             #species-table td:nth-child(5) {
+                 /* display: none; */ /* Odkomentuj, jeśli chcesz ukryć */
+             }
+          }
+
+    </style>
+</head>
 <body>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Zdjęcie</th>
-          <th>Nazwa angielska</th>
-          <th>Nazwa łacińska</th>
-          <th>Rząd</th>
-          <th>Rodzina</th>
-          <th>Zsekwencjonowane zasoby</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for species in site.species %}
-          <tr>
-            <td>
-              <a href="{{ species.url | relative_url }}">
-                <img src="{{ species.image | relative_url }}">
-              </a>
-              <br>
-              <small>{{ species.image_attribution }}</small>
-            </td>
-            <td>{{ species.common_name }}</td>
-            <td><i>{{ species.name }}</i></td>
-            <td>{{ species.order.name }}</td>
-            <td>{{ species.family.name }}</td>
-            <td>{{ species.samples | size }}</td>
-            {% if species.samples | where: "datatype", "Bionano" | size > 0 %}
-              <td><span class="bionano">Bionano</span></td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
 
-  <footer>
-    Autor: Tomasz Żylińśki
-  </footer>
-</body>
+    <div class="container">
+        <h1>Lista Gatunków</h1> <table id="species-table"> <thead>
+                <tr>
+                    <th>Zdjęcie</th>
+                    <th>Nazwa angielska</th>
+                    <th>Nazwa łacińska</th>
+                    <th>Rząd</th>
+                    <th>Rodzina</th>
+                    <th>Zsekw. zasoby</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for species in site.species %}
+                <tr>
+                    <td class="bionano-cell">
+                        {% if species.samples contains "datatype" and species.samples | where: "datatype", "Bionano" | size > 0 %}
+                            <span class="bionano-badge">Bionano</span>
+                        {% endif %}
+                        <a href="{{ species.url | relative_url }}">
+                            {% if species.image %}
+                            <img src="{{ species.image | relative_url }}" alt="[Zdjęcie {{ species.common_name }}]">
+                            {% else %}
+                            <div style="width: 100px; height: 75px; background: #eee; text-align: center; line-height: 75px; font-size: 0.8em; color: #aaa;">Brak zdjęcia</div>
+                            {% endif %}
+                        </a>
+                        {% if species.image and species.image_attribution %}
+                        <small>{{ species.image_attribution }}</small>
+                        {% endif %}
+                    </td>
+                    <td>{{ species.common_name | default: "-" }}</td>
+                    <td><i>{{ species.name | default: "-" }}</i></td>
+                    <td>{{ species.order.name | default: "-" }}</td>
+                    <td>{{ species.family.name | default: "-" }}</td>
+                    <td>{{ species.samples.size | default: "0" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <footer>
+            Autor: Tomasz Żyliński
+        </footer>
+    </div> </body>
+</html>

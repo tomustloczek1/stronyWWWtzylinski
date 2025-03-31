@@ -79,8 +79,8 @@
         {% for species in site.species %}
           <tr>
             <td>
-              <a href="{{ species.url | relative_url }}">
-                <img src="{{ species.image | relative_url }}" alt="{{ species.image_attribution }}">
+              <a href="{{ species.url }}">
+                <img src="{{ species.image }}" alt="{{ species.image }}">
               </a>
               <br>
               <small>{{ species.image_attribution }}</small>
@@ -100,6 +100,6 @@
   </div>
 
   <footer>
-    Autor: Twoje Imię i Nazwisko
+    Autor: Tomasz Żylińśki
   </footer>
 </body>

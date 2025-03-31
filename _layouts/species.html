@@ -104,7 +104,7 @@
         /* --- Sekcja z obrazkiem --- */
         .species-image-container {
             position: absolute;
-            top: 120px
+            top: 120px; /* Zwiększona wartość, aby przesunąć obrazek niżej */
             right: 20px;
             width: 180px;
             text-align: center;
@@ -151,17 +151,23 @@
             background-color: #fff;
         }
 
-        /* Stylizacja ikony linku (SVG) */
-        #resources td a svg {
-            width: 1em; /* Rozmiar ikony SVG */
-            height: 1em;
-            vertical-align: middle; /* Wyrównanie ikony */
-            fill: #007bff; /* Kolor ikony */
-            transition: fill 0.2s;
+        /* Stylizacja linku w tabeli zasobów */
+        #resources td a {
+            color: #007bff; /* Ustawienie koloru dla linku (ikona dziedziczy przez stroke="currentColor") */
+            text-decoration: none; /* Usunięcie podkreślenia linku */
+            transition: color 0.2s;
         }
-         #resources td a:hover svg {
-             fill: #0056b3; /* Zmiana koloru ikony po najechaniu */
-         }
+        #resources td a:hover {
+            color: #0056b3; /* Zmiana koloru linku (i ikony) po najechaniu */
+        }
+
+        /* Stylizacja ikony linku (SVG) w tabeli zasobów */
+        #resources td a svg {
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            /* Usunięto 'fill', kolor obrysu jest dziedziczony z 'color' linku nadrzędnego */
+        }
 
         /* --- Sekcja informacji o gatunku --- */
         #info {
@@ -191,20 +197,20 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            z-index: 100; /* Upewnienie się, że są na wierzchu */
+            z-index: 100;
         }
 
         .social-links a {
             color: #333;
-            display: inline-block; /* Potrzebne dla SVG */
-            line-height: 0; /* Usunięcie dodatkowej przestrzeni pod SVG */
+            display: inline-block;
+            line-height: 0;
         }
 
         /* Stylizacja ikon społecznościowych (SVG) */
         .social-links a svg {
-            width: 24px; /* Stały rozmiar ikon społecznościowych */
+            width: 24px;
             height: 24px;
-            fill: currentColor; /* Kolor dziedziczony z linku 'a' */
+            fill: currentColor; /* Kolor wypełnienia dziedziczony z linku 'a' */
             transition: color 0.3s ease;
         }
 
@@ -362,7 +368,4 @@
             <section id="info">
                 <h2 class="section-header">Informacje o gatunku</h2>
                 {{ content }}
-            </section> </main>
-
-    </div> </body>
-</html>
+            </section> </main> </div> </body> </html>

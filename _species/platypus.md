@@ -15,6 +15,7 @@ individuals:
 genome_size: 2128226567
 genome_size_method:
 project: [ vgp ]
+layout: species
 samples:
 - datatype: PacBio CLR
   individual: mOrnAna1

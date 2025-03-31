@@ -1,3 +1,6 @@
+---
+# Pusty Front Matter - sygnalizuje Jekyllowi, aby przetworzył ten plik
+---
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -30,6 +33,7 @@
         /* --- Nagłówek strony --- */
         h1 {
             text-align: center;
+            margin-top: 10px; /* Mniejszy margines górny */
             margin-bottom: 30px;
             color: #333;
         }
@@ -39,7 +43,6 @@
             width: 100%; /* Tabela zajmuje całą szerokość kontenera */
             border-collapse: collapse;
             margin-top: 20px;
-            /* Usunięto cień tabeli, bo kontener ma już cień */
         }
 
         #species-table th,
@@ -82,22 +85,20 @@
         }
 
         /* --- Stylizacja odznaki "Bionano" --- */
-        /* Ustawienie pozycji względnej dla komórki, aby absolutne pozycjonowanie odznaki działało poprawnie */
         #species-table td.bionano-cell {
              position: relative;
-             /* Upewnij się, że komórka nie ma overflow: hidden */
         }
 
         .bionano-badge {
             position: absolute;
-            top: 5px; /* Dostosuj wg potrzeby, aby wystawało */
-            left: 5px; /* Dostosuj wg potrzeby, aby wystawało */
+            top: 5px;
+            left: 5px;
             background-color: red;
             color: white;
             padding: 2px 5px;
             font-size: 0.7em;
             border-radius: 3px;
-            z-index: 1; /* Aby było nad innymi elementami komórki */
+            z-index: 1;
             font-weight: bold;
         }
 
@@ -109,13 +110,11 @@
             background-color: #333;
             color: white;
             font-size: 0.9em;
-            /* Zaokrąglenie rogów pasujące do kontenera - dodane wewnątrz kontenera */
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
-            /* Poprawka: Stopka powinna być poza głównym paddingiem kontenera */
-            margin-left: -20px; /* Kompensacja paddingu kontenera */
-            margin-right: -20px; /* Kompensacja paddingu kontenera */
-            margin-bottom: -20px; /* Kompensacja paddingu kontenera */
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-bottom: -20px;
         }
 
          /* --- Dostosowania dla mniejszych ekranów --- */
@@ -127,15 +126,14 @@
              #species-table th,
              #species-table td {
                  padding: 8px 10px;
-                 font-size: 0.9em; /* Mniejsza czcionka w tabeli */
+                 font-size: 0.9em;
              }
              #species-table img {
-                 max-width: 70px; /* Mniejsze obrazki */
+                 max-width: 70px;
              }
              h1 {
                  font-size: 1.5em;
              }
-             /* Poprawka dla stopki na małych ekranach */
              footer {
                 margin-left: -15px;
                 margin-right: -15px;
@@ -148,12 +146,11 @@
              }
          }
           @media (max-width: 480px) {
-             /* Można dodać dalsze uproszczenia dla bardzo małych ekranów, np. ukryć kolumny */
-             #species-table th:nth-child(4), /* Ukryj Rząd */
+             #species-table th:nth-child(4),
              #species-table td:nth-child(4),
-             #species-table th:nth-child(5), /* Ukryj Rodzina */
+             #species-table th:nth-child(5),
              #species-table td:nth-child(5) {
-                 /* display: none; */ /* Odkomentuj, jeśli chcesz ukryć */
+                 /* display: none; */
              }
           }
 
@@ -162,7 +159,10 @@
 <body>
 
     <div class="container">
-        <h1>Lista Gatunków</h1> <table id="species-table"> <thead>
+        <h1>Lista Gatunków</h1>
+
+        <table id="species-table">
+            <thead>
                 <tr>
                     <th>Zdjęcie</th>
                     <th>Nazwa angielska</th>
@@ -176,7 +176,9 @@
                 {% for species in site.species %}
                 <tr>
                     <td class="bionano-cell">
-                        {% if species.samples contains "datatype" and species.samples | where: "datatype", "Bionano" | size > 0 %}
+                        {# Poprawiony warunek dla Bionano - używa tylko 'where' #}
+                        {% assign bionano_samples = species.samples | where: "datatype", "Bionano" %}
+                        {% if bionano_samples.size > 0 %}
                             <span class="bionano-badge">Bionano</span>
                         {% endif %}
                         <a href="{{ species.url | relative_url }}">

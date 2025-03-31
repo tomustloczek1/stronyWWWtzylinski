@@ -1,380 +1,331 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Strona Gatunków</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
 
-<style>
-  body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+      .container {
+        display: flex;
+        margin: 20px;
+      }
 
-  .container {
-    display: flex;
-    margin: 20px;
-  }
+      .left-column {
+        width: 20%;
+        padding-right: 20px;
+      }
 
-  .left-column {
-    width: 20%;
-    padding-right: 20px;
-  }
+      .right-column {
+        width: 80%;
+      }
 
-  .right-column {
-    width: 80%;
-  }
+      #table-resources {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
 
-  #table-resources {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
+      #table-resources th,
+      #table-resources td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
 
-  #table-resources th,
-  #table-resources td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
+      #table-resources thead {
+        background-color: #007bff;
+        color: white;
+      }
 
-  #table-resources thead {
-    background-color: #ddd;
-    color: #000;
-  }
+      #table-resources tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
 
-  #table-resources tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
+      #table-resources tbody tr:nth-child(odd) {
+        background-color: transparent;
+      }
 
-  #table-resources tbody tr:nth-child(odd) {
-    background-color: transparent;
-  }
+      .header-section {
+        text-align: center;
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .header-section {
-    text-align: center;
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .header-section h1 {
+        margin: 0 10px;
+      }
 
-  .header-section h1 {
-    margin: 0 10px;
-  }
+      .header-section::before,
+      .header-section::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: #ddd;
+      }
 
-  .header-section::before,
-  .header-section::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background-color: #ddd;
-  }
+      #species-image {
+        float: right;
+        max-width: 200px;
+        height: auto;
+        margin: 0 0 20px 20px;
+        border-radius: 5px;
+      }
 
-  .image-container {
-    float: right;
-    margin: 0 0 20px 20px;
-    text-align: center;
-  }
+      #social-icons {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-  .image-container img {
-    max-width: 200px;
-    height: auto;
-    border-radius: 5px;
-  }
+      #social-icons a {
+        color: #333;
+        font-size: 24px;
+      }
 
-  .image-container small {
-    display: block;
-    font-size: 0.8em;
-    color: #555;
-  }
+      #table-resources a {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #007bff;
+      }
 
-  #social-icons {
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
-  }
+      #table-resources a:hover {
+        text-decoration: underline;
+      }
 
-  #social-icons a {
-    color: #333;
-    font-size: 24px;
-  }
+      .toc-link:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ site.baseurl }}/">Logo</a>  <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdownDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ site.baseurl }}/#onas">O nas</a>  </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Gatunki
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {% for species in site.species %}
+                <li><a class="dropdown-item" href="{{ site.baseurl }}{{ species.url }}">{{ species.name }}</a></li>  {% endfor %}
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ site.baseurl }}/#kontakt">Kontakt</a>  </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-  #table-resources a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: #007bff;
-  }
-
-  #table-resources a:hover {
-    text-decoration: underline;
-  }
-
-  .toc-link:hover {
-    background-color: #f0f0f0;
-  }
-
-  .fab {
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  .fab-facebook:before {
-    content: "\f09a";
-  }
-
-  .fab-twitter:before {
-    content: "\f099";
-  }
-
-  .fab-instagram:before {
-    content: "\f16d";
-  }
-</style>
-
-<div class="container">
-  <div class="left-column">
-    <h2>Spis treści</h2>
-    <ul id="toc">
-      <li><a href="#species-name" class="toc-link">Nazwa gatunku</a></li>
-      <li><a href="#taxonomy" class="toc-link">Taksonomia</a></li>
-      <li><a href="#sequenced-resources" class="toc-link">Zsekwencjonowane zasoby</a></li>
-      <li><a href="#species-information" class="toc-link">Informacje o gatunku</a></li>
-    </ul>
-  </div>
-  <div class="right-column">
-    <div class="header-section" id="species-name">
-      <h1>{{ page.name }}</h1>
-    </div>
-    <div class="image-container">
-      <img id="species-image" src="{{ page.image | relative_url}}" alt="{{ page.image_attribution }}" />
-      <small>{{ page.image_attribution }}</small>
-    </div>
-    <section id="taxonomy">
-      <h2>Taksonomia</h2>
-      <p>
-        Rząd: {{ page.order.name }}<br />
-        Rodzina: {{ page.family.name }}<br />
-        Nazwa gatunku: {{ page.name }} (<i>{{ page.common_name }}</i>)
-      </p>
-    </section>
-    <section id="sequenced-resources">
-      <h2>Zsekwencjonowane zasoby</h2>
-      <table id="table-resources">
-        <thead>
-          <tr>
-            <th>Typ danych</th>
-            <th>Indywidualny</th>
-            <th>Zasady</th>
-            <th>Pokrycie</th>
-            <th>Rozmiar</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for sample in page.samples %}
-          <tr>
-            <td>{{ sample.datatype }}</td>
-            <td>{{ sample.individual }}</td>
-            <td>{{ sample.bases }}</td>
-            <td>{{ sample.coverage }}</td>
-            <td>{{ sample.bytes }}</td>
-            <td>
-              <a href="{{ sample.url }}">Zobacz zasoby</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-    <section id="species-information">
-      <h2>Informacje o gatunku</h2>
-      {{ content }}
-    </section>
-  </div>
-</div>
-
-<div id="social-icons">
-  <a href="https://www.facebook.com/" title="Facebook"><i class="fab fa-facebook"></i></a>
-  <a href="https://twitter.com/" title="Twitter"><i class="fab fa-twitter"></i></a>
-  <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
-</div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toc = document.getElementById("toc");
-    const sections = document.querySelectorAll("section");
-
-    function updateToc() {
-      const currentSectionId = Array.from(sections)
-        .reverse()
-        .find((section) => {
-          const sectionTop = section.offsetTop;
-          const scrollY = window.scrollY;
-          return sectionTop <= scrollY + 100;
-        })?.getAttribute("id");
-
-      const tocLinks = toc.querySelectorAll("a");
-      tocLinks.forEach((link) => {
-        link.classList.remove("active");
-        if (link.getAttribute("href").slice(1) === currentSectionId) {
-          link.classList.add("active");
-        }
-      });
-    }
-
-    window.addEventListener("scroll", updateToc);
-  });
-</script>
-
-  #table-resources a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: #007bff;
-  }
-
-  #table-resources a:hover {
-    text-decoration: underline;
-  }
-  
-  .toc-link:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .image-container { /* Nowy kontener dla obrazu i atrybucji */
-    float: right;
-    margin: 0 0 20px 20px;
-    text-align: center; /* Wyśrodkowanie tekstu w kontenerze */
-  }
-
-  .image-container img {
-    max-width: 200px;
-    height: auto;
-    border-radius: 5px;
-  }
-
-  .image-container small {
-    display: block; /* Atrybucja pod obrazem jako blok */
-    font-size: 0.8em;
-    color: #555;
-  }
-  
-
-</style>
-
-<div class="container">
-  <div class="left-column">
-    <h2>Spis treści</h2>
-    <ul id="toc">
-      <li><a href="#species-name" class="toc-link">Nazwa gatunku</a></li>
-      <li><a href="#taxonomy" class="toc-link">Taksonomia</a></li>
-      <li><a href="#sequenced-resources" class="toc-link">Zsekwencjonowane zasoby</a></li>
-      <li><a href="#species-information" class="toc-link">Informacje o gatunku</a></li>
-    </ul>
-  </div>
-  <div class="right-column">
-    <div class="header-section" id="species-name">
-      <h1>{{ page.name }}</h1>
-    </div>
-    <div class="image-container">
+    <div class="container">
+      <div class="left-column">
+        <h2 id="toc-title">Spis treści</h2>
+        <ul id="toc">
+          <li><a href="#species-name" class="toc-link">Nazwa gatunku</a></li>
+          <li><a href="#taxonomy" class="toc-link">Taksonomia</a></li>
+          <li><a href="#sequenced-resources" class="toc-link">Zsekwencjonowane zasoby</a></li>
+          <li><a href="#species-information" class="toc-link">Informacje o gatunku</a></li>
+        </ul>
+      </div>
+      <div class="right-column">
+        <div class="header-section" id="species-name">
+          <h1>{{ page.name }}</h1>
+        </div>
         <img
           id="species-image"
-          src="{{ page.image | relative_url}}"
+          src="{{ species.url | relative_url }}"
+          alt="{{ page.image_attribution }}"
         />
-        <small>{{ page.image_attribution }}</small>
+        <p>Image attribution: {{ page.image_attribution }}</p>
+        <section id="taxonomy">
+          <h2>Taksonomia</h2>
+          <p>
+            Rząd: {{ page.order.name }}<br />
+            Rodzina: {{ page.family.name }}<br />
+            Nazwa gatunku: {{ page.name }} (<i>{{ page.common_name }}</i>)
+          </p>
+        </section>
+        <section id="sequenced-resources">
+          <h2>Zsekwencjonowane zasoby</h2>
+          <table id="table-resources">
+            <thead>
+              <tr>
+                <th>Typ danych</th>
+                <th>Indywidualny</th>
+                <th>Zasady</th>
+                <th>Pokrycie</th>
+                <th>Rozmiar</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for sample in page.samples %}
+              <tr>
+                <td>{{ sample.datatype }}</td>
+                <td>{{ sample.individual }}</td>
+                <td>{{ sample.bases }}</td>
+                <td>{{ sample.coverage }}</td>
+                <td>{{ sample.bytes }}</td>
+                <td>
+                  <a href="{{ sample.url }}">
+                    Zobacz zasoby
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#commentModal"
+          >
+            Dodaj komentarz
+          </button>
+        </section>
+        <section id="species-information">
+          <h2>Informacje o gatunku</h2>
+          {{ content }}
+        </section>
+      </div>
     </div>
-    <section id="taxonomy">
-      <h2>Taksonomia</h2>
-      <p>
-        Rząd: {{ page.order.name }}<br />
-        Rodzina: {{ page.family.name }}<br />
-        Nazwa gatunku: {{ page.name }} (<i>{{ page.common_name }}</i>)
-      </p>
-    </section>
-    <section id="sequenced-resources">
-      <h2>Zsekwencjonowane zasoby</h2>
-      <table id="table-resources">
-        <thead>
-          <tr>
-            <th>Typ danych</th>
-            <th>Indywidualny</th>
-            <th>Zasady</th>
-            <th>Pokrycie</th>
-            <th>Rozmiar</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for sample in page.samples %}
-          <tr>
-            <td>{{ sample.datatype }}</td>
-            <td>{{ sample.individual }}</td>
-            <td>{{ sample.bases }}</td>
-            <td>{{ sample.coverage }}</td>
-            <td>{{ sample.bytes }}</td>
-            <td>
-              <a href="{{ sample.url }}">
-                Zobacz zasoby
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-    <section id="species-information">
-      <h2>Informacje o gatunku</h2>
-      {{ content }}
-    </section>
-  </div>
-</div>
 
-<div id="social-icons">
-  <a href="https://www.facebook.com/" title="Facebook"
-    ><i class="fab fa-facebook"></i
-  ></a>
-  <a href="https://twitter.com/" title="Twitter"
-    ><i class="fab fa-twitter"></i
-  ></a>
-  <a href="https://www.instagram.com/" title="Instagram"
-    ><i class="fab fa-instagram"></i
-  ></a>
-</div>
+    <div
+      class="modal fade"
+      id="commentModal"
+      tabindex="-1"
+      aria-labelledby="commentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commentModalLabel">Dodaj komentarz do {{ page.name }}</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="authorEmail" class="form-label">Email autora</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="authorEmail"
+                  aria-describedby="emailHelp"
+                />
+                <div id="emailHelp" class="form-text">
+                  Twój email nie zostanie opublikowany.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="commentContent" class="form-label">Komentarz</label>
+                <textarea class="form-control" id="commentContent" rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Anuluj
+            </button>
+            <button type="button" class="btn btn-primary">Dodaj komentarz</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toc = document.getElementById("toc");
-    const sections = document.querySelectorAll("section");
+    <footer class="bg-light text-center py-3">
+      <p>© 2025 Moja strona o gatunkach. Wszelkie prawa zastrzeżone.</p>
+    </footer>
 
-    function updateToc() {
-      const currentSectionId = Array.from(sections)
-        .reverse()
-        .find((section) => {
-          const sectionTop = section.offsetTop;
-          const scrollY = window.scrollY;
-          return sectionTop <= scrollY + 100;
-        })?.getAttribute("id");
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1nqE5JIB0iGq9tC6cq37ISv+P0xofv"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toc = document.getElementById("toc");
+        const sections = document.querySelectorAll("section");
+        const tocTitle = document.getElementById("toc-title");
 
-      const tocLinks = toc.querySelectorAll("a");
-      tocLinks.forEach((link) => {
-        link.classList.remove("active");
-        if (link.getAttribute("href").slice(1) === currentSectionId) {
-          link.classList.add("active");
+        function updateToc() {
+          const currentSectionId = Array.from(sections)
+            .reverse()
+            .find((section) => {
+              const sectionTop = section.offsetTop;
+              const scrollY = window.scrollY;
+              return sectionTop <= scrollY + 100;
+            })?.getAttribute("id");
+
+          const tocLinks = toc.querySelectorAll("a");
+          tocLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href").slice(1) === currentSectionId) {
+              link.classList.add("active");
+            }
+          });
+        }
+
+        window.addEventListener("scroll", updateToc);
+
+        if (sections.length === 0 || !tocTitle) {
+            toc.style.display = 'none';
         }
       });
-    }
-
-    window.addEventListener("scroll", updateToc);
-  });
-</script>
+    </script>
+  </body>
+</html>

@@ -6,29 +6,26 @@
     <title>{{ page.common_name | capitalize }} ({{ page.name }})</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        /* Minimalne style niestandardowe, jeśli potrzebne */
+        /* Minimalne style niestandardowe */
         body {
-            /* Pozycja względna potrzebna dla Scrollspy */
-            position: relative;
-            /* Dodatkowy padding na górze dla stałego navbara, jeśli będzie fixed-top */
-            /* padding-top: 56px; */ /* Odkomentuj jeśli navbar będzie fixed-top */
+            position: relative; /* Potrzebne dla Scrollspy */
         }
         /* Styl dla "lepkiego" spisu treści */
         #tocNav {
             position: sticky;
-            top: 20px; /* Odstęp od góry */
-            height: calc(100vh - 40px); /* Maksymalna wysokość, aby umożliwić przewijanie */
-            overflow-y: auto; /* Pasek przewijania, jeśli spis treści jest długi */
+            top: 20px;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
         }
         /* Styl dla obrazka gatunku */
         .species-image {
              max-width: 180px;
              height: auto;
         }
-        /* Styl dla linii nagłówków sekcji (opcjonalnie, można usunąć) */
+        /* Styl dla linii nagłówków sekcji */
         .section-header {
             text-align: center;
-            margin-top: 2.5rem; /* Zwiększony margines */
+            margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             position: relative;
         }
@@ -37,17 +34,18 @@
             content: "";
             position: absolute;
             top: 50%;
-            width: 30%;
+            width: 30%; /* Szerokość linii względem nagłówka */
             height: 1px;
             background-color: #ccc;
             transform: translateY(-50%);
         }
-        .section-header::before { left: 5%; }
-        .section-header::after { right: 5%; }
+        /* Dostosowanie pozycji linii dla węższej kolumny treści */
+        .section-header::before { left: 0; } /* Linia od lewej krawędzi nagłówka */
+        .section-header::after { right: 0; } /* Linia do prawej krawędzi nagłówka */
 
-        /* Ukrywanie bocznych linków społecznościowych na razie */
+        /* Ukrywanie bocznych linków społecznościowych */
         .social-links {
-            display: none; /* Można je dodać później w inny sposób */
+            display: none;
         }
     </style>
 </head>
@@ -83,21 +81,10 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container mt-5">
         <div class="row">
 
-            <div class="col-lg-3">
-                <nav id="tocNav" class="nav flex-column small">
-                     <h5 class="mt-2">Spis treści</h5>
-                     <ul class="list-unstyled">
-                        <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
-                        <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
-                        <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
-                        </ul>
-                </nav>
-            </div>
-
-            <div class="col-lg-9">
+            <div class="col-lg-8 offset-lg-1">
 
                 {% if page.image %}
                 <aside class="float-lg-end ms-lg-3 mb-3 text-center text-lg-start">
@@ -112,7 +99,8 @@
 
                 <section id="taxonomy">
                     <h2 class="section-header">Taksonomia</h2>
-                    <ul class="list-unstyled mb-4"> <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                    <ul class="list-unstyled mb-4">
+                        <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
                         <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
                         <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
                         <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
@@ -123,7 +111,9 @@
                 <section id="resources">
                     <h2 class="section-header">Zsekwencjonowane zasoby</h2>
                     {% if page.samples and page.samples.size > 0 %}
-                    <div class="table-responsive"> <table class="table table-striped table-hover table-sm"> <thead>
+                    <div class="table-responsive">
+                         <table class="table table-striped table-hover table-sm">
+                             <thead>
                                 <tr>
                                     <th>Typ danych</th>
                                     <th>Osobnik</th>
@@ -166,7 +156,7 @@
 
                 <section id="info">
                     <h2 class="section-header">Informacje o gatunku</h2>
-                    <div class="markdown-content"> {# Dodano div dla potencjalnej stylizacji treści markdown #}
+                    <div class="markdown-content">
                          {{ content }}
                     </div>
                 </section>
@@ -177,8 +167,18 @@
                      </button>
                 </div>
 
+            </div> <div class="col-lg-3 order-lg-last">
+                <nav id="tocNav" class="nav flex-column small">
+                     <h5 class="mt-2">Spis treści</h5>
+                     <ul class="list-unstyled">
+                        <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
+                        <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
+                        <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
+                     </ul>
+                </nav>
+            </div>
 
-            </div> </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
+        </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
         <div class="container">
              <p class="mb-0">Autor: Tomasz Żyliński</p>
         </div>
@@ -192,8 +192,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Formularz pojawi się wkrótce.</p>
-          </div>
+            <p>Formularz pojawi się wkrótce.</p> </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
             <button type="button" class="btn btn-primary">Wyślij komentarz</button>
@@ -201,7 +200,6 @@
         </div>
       </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

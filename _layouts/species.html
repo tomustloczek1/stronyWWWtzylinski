@@ -107,10 +107,10 @@ layout: default
     background-color: #f0f0f0;
   }
   
-  .image-container { 
+  .image-container { /* Nowy kontener dla obrazu i atrybucji */
     float: right;
     margin: 0 0 20px 20px;
-    text-align: center; 
+    text-align: center; /* Wyśrodkowanie tekstu w kontenerze */
   }
 
   .image-container img {
@@ -120,7 +120,7 @@ layout: default
   }
 
   .image-container small {
-    display: block; 
+    display: block; /* Atrybucja pod obrazem jako blok */
     font-size: 0.8em;
     color: #555;
   }
@@ -146,7 +146,6 @@ layout: default
         <img
           id="species-image"
           src="{{ page.image | relative_url}}"
-          "
         />
         <small>{{ page.image_attribution }}</small>
     </div>

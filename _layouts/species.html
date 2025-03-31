@@ -116,6 +116,17 @@
             color: #007bff; /* Kolor linku (i ikony SVG) po najechaniu */
         }
 
+        /* DODANE: Usuwanie ikon walidacji Bootstrap */
+        .form-control.is-valid, .was-validated .form-control:valid,
+        .form-select.is-valid, .was-validated .form-select:valid {
+            background-image: none !important;
+        }
+        .form-control.is-invalid, .was-validated .form-control:invalid,
+        .form-select.is-invalid, .was-validated .form-select:invalid {
+             background-image: none !important;
+        }
+        /* Koniec usuwania ikon walidacji */
+
 
         @media (max-width: 991.98px) {
             body {
@@ -124,8 +135,6 @@
             #tocNav {
                 display: none; /* Ukrywamy stały ToC */
             }
-            /* Można też ukryć ikony społecznościowe na małych ekranach, jeśli jest taka potrzeba */
-            /* .social-links { display: none; } */
         }
 
     </style>
@@ -297,9 +306,9 @@
                 </div>
                 <div class="mb-3">
                     <label for="commentEmail" class="form-label">Twój adres email:</label>
-                    <input type="email" class="form-control" id="commentEmail" name="commentEmail" placeholder="nazwa@example.com" required>
+                    <input type="text" class="form-control" id="commentEmail" name="commentEmail" placeholder="nazwa@example.com" required pattern=".*@.*" title="Adres email musi zawierać znak @.">
                 </div>
-                </form>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>

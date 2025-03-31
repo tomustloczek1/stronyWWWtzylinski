@@ -43,9 +43,9 @@
             background-color: #ccc;
             transform: translateY(-50%);
         }
-        /* Przywrócenie poprzedniego stylu linii */
-        .section-header::before { left: 5%; }
-        .section-header::after { right: 5%; }
+        /* Pozycja linii dla węższej kolumny treści (col-lg-8) */
+        .section-header::before { left: 0; }
+        .section-header::after { right: 0; }
 
         /* Ukrywanie bocznych linków społecznościowych */
         .social-links {
@@ -86,7 +86,7 @@
     </nav>
 
     <div class="container mt-5">
-        <div class="row">
+        <div class="row justify-content-center">
 
             <div class="col-lg-3">
                 <nav id="tocNav" class="nav flex-column small">
@@ -99,10 +99,9 @@
                 </nav>
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-lg-8">
 
                 <div class="d-lg-flex align-items-start mb-4">
-
                     <div class="flex-grow-1">
                         <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
                         <section id="taxonomy">
@@ -116,7 +115,6 @@
                             </ul>
                         </section>
                     </div>
-
                     {% if page.image %}
                     <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
                         <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
@@ -125,7 +123,6 @@
                         {% endif %}
                     </aside>
                     {% endif %}
-
                 </div> <section id="resources">
                     <h2 class="section-header">Zsekwencjonowane zasoby</h2>
                     {% if page.samples and page.samples.size > 0 %}

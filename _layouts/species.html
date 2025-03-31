@@ -82,7 +82,7 @@
             font-size: 0.9em;
         }
 
-        /* --- Boczne linki społecznościowe (DODANE) --- */
+        /* --- Boczne linki społecznościowe --- */
         .social-links {
             position: fixed; /* Stała pozycja na ekranie */
             right: 15px; /* Odstęp od prawej krawędzi */
@@ -279,7 +279,7 @@
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
         </a>
-        </aside>
+    </aside>
 
     <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -289,10 +289,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Formularz pojawi się wkrótce.</p> </div>
+            <form id="commentForm">
+                <p class="mb-3">Gatunek: <strong>{{ page.common_name | capitalize }}</strong></p>
+                <div class="mb-3">
+                    <label for="commentText" class="form-label">Twój komentarz:</label>
+                    <textarea class="form-control" id="commentText" name="commentText" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="commentEmail" class="form-label">Twój adres email:</label>
+                    <input type="email" class="form-control" id="commentEmail" name="commentEmail" placeholder="nazwa@example.com" required>
+                </div>
+                </form>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-            <button type="button" class="btn btn-primary">Wyślij komentarz</button>
+            <button type="submit" class="btn btn-primary" form="commentForm">Wyślij komentarz</button>
           </div>
         </div>
       </div>

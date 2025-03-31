@@ -81,20 +81,18 @@
             {% assign sorted_species = site.species | sort: "common_name" %}
             {% for species in sorted_species %}
             <div class="col">
-                <div class="card h-100 shadow-sm position-relative"> {# Dodano position-relative dla odznaki #}
+                <div class="card h-100 shadow-sm position-relative">
 
-                    {# Odznaka Bionano (jeśli istnieje) #}
                     {% assign bionano_samples = species.samples | where: "datatype", "Bionano" %}
                     {% if bionano_samples.size > 0 %}
                         <span class="badge bg-danger position-absolute top-0 end-0 m-2 bionano-badge-card">Bionano</span>
                     {% endif %}
 
-                    {# Obrazek jako link #}
+         
                     <a href="{{ species.url | relative_url }}">
                         {% if species.image %}
                         <img src="{{ species.image | relative_url }}" class="card-img-top" alt="[Zdjęcie {{ species.common_name | default: 'gatunku' }}]">
                         {% else %}
-                        {# Placeholder SVG dla brakującego obrazka #}
                         <svg class="card-img-top" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Brak zdjęcia" preserveAspectRatio="xMidYMid slice" focusable="false">
                             <title>Placeholder</title>
                             <rect width="100%" height="100%" fill="#868e96"></rect>
@@ -102,8 +100,7 @@
                         </svg>
                         {% endif %}
                     </a>
-
-                    {# Treść karty #}
+                    
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">
                             <a href="{{ species.url | relative_url }}" class="text-decoration-none text-dark stretched-link">{{ species.common_name | default: "Brak nazwy" | capitalize }}</a>
@@ -114,22 +111,20 @@
                             <li><strong>Rodzina:</strong> {{ species.family.name | default: "-" }}</li>
                             <li><strong>Zasoby:</strong> {{ species.samples.size | default: "0" }}</li>
                         </ul>
-                        {# Spacer, aby stopka (jeśli jest) była na dole #}
                         <div class="mt-auto"></div>
                     </div>
 
-                    {# Stopka karty (opcjonalna, na atrybucję) #}
                     {% if species.image and species.image_attribution %}
                     <div class="card-footer text-muted small">
                         {{ species.image_attribution }}
                     </div>
                     {% endif %}
-                </div> {# Koniec .card #}
-            </div> {# Koniec .col #}
+                </div>
+            </div>
             {% endfor %}
-        </div> {# Koniec .row #}
+        </div> 
 
-    </div> {# Koniec .container #}
+    </div>
 
     <footer class="bg-dark text-white text-center p-3 mt-5">
         <p class="mb-0">Autor: Tomasz Żyliński</p>

@@ -6,66 +6,66 @@
     <title>{{ page.common_name | capitalize }} ({{ page.name }})</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        /* Szerokość i margines dla stałego spisu treści */
         :root {
-            --toc-width: 220px; /* Szerokość spisu treści */
-            --navbar-height: 56px; /* Przybliżona wysokość navbara */
+            --toc-width: 220px;
+            --navbar-height: 56px;
         }
 
         body {
-            position: relative; /* Potrzebne dla Scrollspy */
-            padding-left: var(--toc-width); /* Dodajemy padding, aby treść nie wchodziła pod ToC */
+            position: relative;
+            padding-left: var(--toc-width);
         }
 
-        /* Styl dla stałego spisu treści przy lewej krawędzi */
         #tocNav {
-            position: fixed; /* Stała pozycja */
+            position: fixed;
             left: 0;
-            top: var(--navbar-height); /* Pozycja pod navbarem */
-            width: var(--toc-width); /* Ustalona szerokość */
-            height: calc(100vh - var(--navbar-height)); /* Wysokość poniżej navbara */
-            overflow-y: auto; /* Przewijanie dla długiego spisu */
-            background-color: #f8f9fa; /* Jasne tło dla odróżnienia */
-            border-right: 1px solid #dee2e6; /* Linia oddzielająca */
-            padding: 1rem; /* Wewnętrzny padding */
-            z-index: 1000; /* Upewnienie się, że jest nad treścią */
+            top: var(--navbar-height);
+            width: var(--toc-width);
+            height: calc(100vh - var(--navbar-height));
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 1rem;
+            z-index: 1000;
         }
 
         #tocNav .nav-link {
             font-size: 0.9rem;
             padding-top: 0.2rem;
             padding-bottom: 0.2rem;
-            color: #0d6efd; /* Kolor linków Bootstrap */
+            color: #0d6efd;
         }
-         #tocNav .nav-link.active, /* Styl aktywnego linku dla Scrollspy */
+         #tocNav .nav-link.active,
          #tocNav .nav-link:hover {
             color: #0a58ca;
             font-weight: bold;
          }
-
          #tocNav h5 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
          }
 
-        /* Styl dla obrazka gatunku */
         .species-image {
              max-width: 180px;
              height: auto;
         }
-        /* Styl dla linii nagłówków sekcji */
+
         .section-header {
             text-align: center;
             margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             position: relative;
+            /* Dodajmy padding, aby tekst nie dochodził do linii */
+            padding-left: 5%;
+            padding-right: 5%;
         }
         .section-header::before,
         .section-header::after {
             content: "";
             position: absolute;
             top: 50%;
-            width: 30%;
+            /* Zmniejszona szerokość linii */
+            width: 25%;
             height: 1px;
             background-color: #ccc;
             transform: translateY(-50%);
@@ -74,22 +74,39 @@
         .section-header::before { left: 5%; }
         .section-header::after { right: 5%; }
 
-        /* Dostosowanie dla małych ekranów - ukrywamy stały ToC */
-        @media (max-width: 991.98px) { /* Poniżej breakpointu 'lg' */
+        /* Stopka - usunięto margines */
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: #333;
+            color: white;
+            font-size: 0.9em;
+            /* Zaokrąglenie rogów pasujące do kontenera */
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+
+        @media (max-width: 991.98px) {
             body {
-                padding-left: 0; /* Usuwamy padding */
+                padding-left: 0;
             }
             #tocNav {
-                display: none; /* Ukrywamy stały ToC */
+                display: none;
             }
-            /* Można by dodać alternatywny ToC np. w offcanvas lub na górze strony */
+            /* Przywracamy normalne marginesy stopki na małych ekranach */
+             footer {
+                 margin-left: 0;
+             }
         }
 
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#tocNav" data-bs-offset="70" tabindex="0">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top"> <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ '/' | relative_url }}">Arka Genomów</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -118,7 +135,8 @@
         </div>
     </nav>
 
-    <nav id="tocNav" class="nav flex-column small d-none d-lg-block"> <h5 class="mt-2">Spis treści</h5>
+    <nav id="tocNav" class="nav flex-column small d-none d-lg-block">
+         <h5 class="mt-2">Spis treści</h5>
          <ul class="list-unstyled">
             <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
             <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
@@ -128,20 +146,21 @@
 
     <div class="container" style="padding-top: var(--navbar-height); margin-top: 1rem;">
         <div class="row">
-            <div class="col-lg-9 mx-auto"> <div class="d-lg-flex align-items-start mb-4">
-                    <div class="flex-grow-1">
-                        <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
-                        <section id="taxonomy">
-                            <h2 class="section-header">Taksonomia</h2>
-                            <ul class="list-unstyled">
-                                <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
-                                <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
-                                <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
-                                <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
-                                <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
-                            </ul>
-                        </section>
-                    </div>
+            <div class="col-lg-9 mx-auto">
+
+                <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
+
+                <div class="d-lg-flex align-items-start mb-4">
+                    <section id="taxonomy" class="flex-grow-1">
+                        <h2 class="section-header">Taksonomia</h2>
+                        <ul class="list-unstyled">
+                            <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                            <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
+                            <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
+                            <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
+                            <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
+                        </ul>
+                    </section>
                     {% if page.image %}
                     <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
                         <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
@@ -209,12 +228,11 @@
                      </button>
                 </div>
 
-            </div> </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5" style="margin-left: var(--toc-width);"> <div class="container">
-             <p class="mb-0">Autor: Tomasz Żyliński</p>
-        </div>
-    </footer>
+            </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
+            <p class="mb-0">Autor: Tomasz Żyliński</p>
+        </footer>
 
-    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    </div> <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

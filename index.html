@@ -176,7 +176,6 @@
                 {% for species in site.species %}
                 <tr>
                     <td class="bionano-cell">
-                        {# Poprawiony warunek dla Bionano - używa tylko 'where' #}
                         {% assign bionano_samples = species.samples | where: "datatype", "Bionano" %}
                         {% if bionano_samples.size > 0 %}
                             <span class="bionano-badge">Bionano</span>

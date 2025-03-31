@@ -82,14 +82,50 @@
             font-size: 0.9em;
         }
 
+        /* --- Boczne linki społecznościowe (DODANE) --- */
+        .social-links {
+            position: fixed; /* Stała pozycja na ekranie */
+            right: 15px; /* Odstęp od prawej krawędzi */
+            top: 50%; /* Początkowa pozycja na środku */
+            transform: translateY(-50%); /* Dokładne wycentrowanie w pionie */
+            display: flex; /* Ustawienie widoczności */
+            flex-direction: column; /* Ikony jedna pod drugą */
+            gap: 10px; /* Odstęp między ikonami */
+            background-color: rgba(255, 255, 255, 0.8); /* Lekko przezroczyste tło */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            z-index: 1021; /* Wyżej niż navbar i ToC */
+        }
+
+        .social-links a {
+            color: #333;
+            display: inline-block; /* Potrzebne dla SVG */
+            line-height: 0; /* Usunięcie dodatkowej przestrzeni pod SVG */
+        }
+
+        /* Stylizacja ikon społecznościowych (SVG) */
+        .social-links a svg {
+            width: 24px; /* Stały rozmiar ikon społecznościowych */
+            height: 24px;
+            fill: currentColor; /* Kolor dziedziczony z linku 'a' */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #007bff; /* Kolor linku (i ikony SVG) po najechaniu */
+        }
+
 
         @media (max-width: 991.98px) {
             body {
                 padding-left: 0;
             }
             #tocNav {
-                display: none;
+                display: none; /* Ukrywamy stały ToC */
             }
+            /* Można też ukryć ikony społecznościowe na małych ekranach, jeśli jest taka potrzeba */
+            /* .social-links { display: none; } */
         }
 
     </style>
@@ -225,7 +261,27 @@
             <p class="mb-0">Autor: Tomasz Żyliński</p>
         </footer>
 
-    </div> <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    </div> <aside class="social-links">
+        <a href="#" title="Facebook" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+        </a>
+        <a href="#" title="Twitter" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            </svg>
+        </a>
+        <a href="#" title="Instagram" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+        </a>
+        </aside>
+
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

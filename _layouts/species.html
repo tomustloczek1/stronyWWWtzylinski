@@ -17,6 +17,10 @@
             height: calc(100vh - 40px);
             overflow-y: auto;
         }
+        /* Zwiększenie czcionki w spisie treści */
+        #tocNav .nav-link {
+            font-size: 0.95rem; /* Nieco większa czcionka */
+        }
         /* Styl dla obrazka gatunku */
         .species-image {
              max-width: 180px;
@@ -39,9 +43,9 @@
             background-color: #ccc;
             transform: translateY(-50%);
         }
-        /* Dostosowanie pozycji linii dla węższej kolumny treści */
-        .section-header::before { left: 0; } /* Linia od lewej krawędzi nagłówka */
-        .section-header::after { right: 0; } /* Linia do prawej krawędzi nagłówka */
+        /* Przywrócenie poprzedniego stylu linii */
+        .section-header::before { left: 5%; }
+        .section-header::after { right: 5%; }
 
         /* Ukrywanie bocznych linków społecznościowych */
         .social-links {
@@ -84,31 +88,45 @@
     <div class="container mt-5">
         <div class="row">
 
-            <div class="col-lg-8 offset-lg-1">
+            <div class="col-lg-3">
+                <nav id="tocNav" class="nav flex-column small">
+                     <h5 class="mt-2">Spis treści</h5>
+                     <ul class="list-unstyled">
+                        <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
+                        <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
+                        <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
+                     </ul>
+                </nav>
+            </div>
 
-                {% if page.image %}
-                <aside class="float-lg-end ms-lg-3 mb-3 text-center text-lg-start">
-                    <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
-                    {% if page.image_attribution %}
-                    <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
+            <div class="col-lg-9">
+
+                <div class="d-lg-flex align-items-start mb-4">
+
+                    <div class="flex-grow-1">
+                        <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
+                        <section id="taxonomy">
+                            <h2 class="section-header">Taksonomia</h2>
+                            <ul class="list-unstyled">
+                                <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                                <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
+                                <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
+                                <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
+                                <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
+                            </ul>
+                        </section>
+                    </div>
+
+                    {% if page.image %}
+                    <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
+                        <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
+                        {% if page.image_attribution %}
+                        <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
+                        {% endif %}
+                    </aside>
                     {% endif %}
-                </aside>
-                {% endif %}
 
-                <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
-
-                <section id="taxonomy">
-                    <h2 class="section-header">Taksonomia</h2>
-                    <ul class="list-unstyled mb-4">
-                        <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
-                        <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
-                        <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
-                        <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
-                        <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
-                    </ul>
-                </section>
-
-                <section id="resources">
+                </div> <section id="resources">
                     <h2 class="section-header">Zsekwencjonowane zasoby</h2>
                     {% if page.samples and page.samples.size > 0 %}
                     <div class="table-responsive">
@@ -167,18 +185,7 @@
                      </button>
                 </div>
 
-            </div> <div class="col-lg-3 order-lg-last">
-                <nav id="tocNav" class="nav flex-column small">
-                     <h5 class="mt-2">Spis treści</h5>
-                     <ul class="list-unstyled">
-                        <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
-                        <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
-                        <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
-                     </ul>
-                </nav>
-            </div>
-
-        </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
+            </div> </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
         <div class="container">
              <p class="mb-0">Autor: Tomasz Żyliński</p>
         </div>

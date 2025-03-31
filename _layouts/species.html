@@ -13,20 +13,20 @@
 
         body {
             position: relative;
-            padding-left: var(--toc-width);
+            padding-left: var(--toc-width); /* Dodajemy padding, aby treść nie wchodziła pod ToC */
         }
 
         #tocNav {
-            position: fixed;
+            position: fixed; /* Stała pozycja */
             left: 0;
-            top: var(--navbar-height);
-            width: var(--toc-width);
-            height: calc(100vh - var(--navbar-height));
-            overflow-y: auto;
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-            padding: 1rem;
-            z-index: 1000;
+            top: var(--navbar-height); /* Pozycja pod navbarem */
+            width: var(--toc-width); /* Ustalona szerokość */
+            height: calc(100vh - var(--navbar-height)); /* Wysokość poniżej navbara */
+            overflow-y: auto; /* Przewijanie dla długiego spisu */
+            background-color: #f8f9fa; /* Jasne tło dla odróżnienia */
+            border-right: 1px solid #dee2e6; /* Linia oddzielająca */
+            padding: 1rem; /* Wewnętrzny padding */
+            z-index: 1000; /* Upewnienie się, że jest nad treścią */
         }
 
         #tocNav .nav-link {
@@ -55,8 +55,7 @@
             margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             position: relative;
-            /* Dodajmy padding, aby tekst nie dochodził do linii */
-            padding-left: 5%;
+            padding-left: 5%; /* Padding, aby tekst nie dochodził do linii */
             padding-right: 5%;
         }
         .section-header::before,
@@ -64,8 +63,7 @@
             content: "";
             position: absolute;
             top: 50%;
-            /* Zmniejszona szerokość linii */
-            width: 25%;
+            width: 25%; /* Zmniejszona szerokość linii */
             height: 1px;
             background-color: #ccc;
             transform: translateY(-50%);
@@ -74,7 +72,7 @@
         .section-header::before { left: 5%; }
         .section-header::after { right: 5%; }
 
-        /* Stopka - usunięto margines */
+        /* Stopka */
         footer {
             text-align: center;
             padding: 15px;
@@ -82,9 +80,6 @@
             background-color: #333;
             color: white;
             font-size: 0.9em;
-            /* Zaokrąglenie rogów pasujące do kontenera */
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
         }
 
 
@@ -95,10 +90,6 @@
             #tocNav {
                 display: none;
             }
-            /* Przywracamy normalne marginesy stopki na małych ekranach */
-             footer {
-                 margin-left: 0;
-             }
         }
 
     </style>
@@ -150,26 +141,28 @@
 
                 <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
 
-                <div class="d-lg-flex align-items-start mb-4">
-                    <section id="taxonomy" class="flex-grow-1">
-                        <h2 class="section-header">Taksonomia</h2>
-                        <ul class="list-unstyled">
-                            <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
-                            <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
-                            <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
-                            <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
-                            <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
-                        </ul>
-                    </section>
-                    {% if page.image %}
-                    <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
-                        <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
-                        {% if page.image_attribution %}
-                        <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
+                <section id="taxonomy">
+                    <h2 class="section-header">Taksonomia</h2>
+
+                    <div class="d-lg-flex align-items-start mb-4">
+                        <div class="flex-grow-1">
+                            <ul class="list-unstyled">
+                                <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                                <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
+                                <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
+                                <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
+                                <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
+                            </ul>
+                        </div>
+                        {% if page.image %}
+                        <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
+                            <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
+                            {% if page.image_attribution %}
+                            <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
+                            {% endif %}
+                        </aside>
                         {% endif %}
-                    </aside>
-                    {% endif %}
-                </div> <section id="resources">
+                    </div> </section> <section id="resources">
                     <h2 class="section-header">Zsekwencjonowane zasoby</h2>
                     {% if page.samples and page.samples.size > 0 %}
                     <div class="table-responsive">

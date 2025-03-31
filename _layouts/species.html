@@ -1,3 +1,345 @@
 ---
 layout = deafult
 ---
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.common_name | capitalize }} ({{ page.name }})</title>
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/Lucide.css">
+    <style>
+        /* --- Globalne Style --- */
+        body {
+            font-family: 'Arial', sans-serif; /* Zmiana czcionki */
+            background-color: #f9f9f9; /* Jasne tło */
+            margin: 0;
+            padding: 0;
+            display: flex; /* Użycie flexbox do layoutu */
+            min-height: 100vh;
+        }
+
+        /* --- Kontener główny --- */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px; /* Ograniczenie maksymalnej szerokości */
+            margin: 20px auto; /* Centrowanie i marginesy */
+            background-color: #fff; /* Białe tło dla treści */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Cień */
+            border-radius: 8px; /* Zaokrąglone rogi */
+            overflow: hidden; /* Zapobiega wychodzeniu elementów poza kontener */
+        }
+
+        /* --- Nawigacja (Spis treści) --- */
+        nav.table-of-contents {
+            width: 200px; /* Stała szerokość spisu treści */
+            padding: 20px;
+            background-color: #f0f0f0; /* Lekko szare tło */
+            border-right: 1px solid #ddd; /* Linia oddzielająca */
+            flex-shrink: 0; /* Zapobiega kurczeniu się nawigacji */
+        }
+
+        nav.table-of-contents h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        nav.table-of-contents ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav.table-of-contents li a {
+            display: block; /* Linki jako bloki */
+            padding: 8px 10px;
+            text-decoration: none;
+            color: #0056b3; /* Kolor linków */
+            border-radius: 4px; /* Zaokrąglenie */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Płynne przejście */
+            margin-bottom: 5px; /* Odstęp między linkami */
+        }
+
+        nav.table-of-contents li a:hover {
+            background-color: #0056b3; /* Tło linku po najechaniu */
+            color: #fff; /* Kolor tekstu po najechaniu */
+        }
+
+        /* --- Główna treść --- */
+        main.content {
+            flex-grow: 1; /* Pozwala treści zająć dostępną przestrzeń */
+            padding: 30px;
+            position: relative; /* Potrzebne do pozycjonowania obrazka */
+        }
+
+        /* --- Nagłówki sekcji --- */
+        .section-header {
+            text-align: center; /* Wyśrodkowanie nagłówka */
+            margin-top: 40px;
+            margin-bottom: 30px;
+            position: relative; /* Do pozycjonowania linii */
+            color: #333;
+        }
+
+        /* Linie przed i po nagłówku */
+        .section-header::before,
+        .section-header::after {
+            content: "";
+            position: absolute;
+            top: 50%; /* Na środku wysokości tekstu */
+            width: 30%; /* Szerokość linii */
+            height: 1px; /* Grubość linii */
+            background-color: #ccc; /* Kolor linii */
+        }
+
+        .section-header::before {
+            left: 5%; /* Odstęp od lewej krawędzi */
+            transform: translateY(-50%);
+        }
+
+        .section-header::after {
+            right: 5%; /* Odstęp od prawej krawędzi */
+            transform: translateY(-50%);
+        }
+
+        /* --- Sekcja z obrazkiem --- */
+        .species-image-container {
+            position: absolute; /* Pozycjonowanie absolutne względem 'main.content' */
+            top: 20px;
+            right: 20px;
+            width: 180px; /* Szerokość kontenera obrazka */
+            text-align: center;
+        }
+
+        .species-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px; /* Zaokrąglone rogi */
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1); /* Lekki cień */
+            margin-bottom: 5px;
+        }
+
+        .species-image-container small {
+            font-size: 0.8em;
+            color: #666;
+            display: block;
+        }
+
+        /* --- Tabela z zasobami --- */
+        #resources table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #resources th, #resources td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        #resources thead th {
+            background-color: #e9ecef; /* Jasnoszare tło nagłówka tabeli */
+            color: #495057;
+            font-weight: bold;
+        }
+
+        /* Stylizacja wierszy parzystych */
+        #resources tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Bardzo jasnoszare tło dla parzystych wierszy */
+        }
+        /* Stylizacja wierszy nieparzystych (domyślnie transparentne tło) */
+         #resources tbody tr:nth-child(odd) {
+            background-color: #fff; /* Białe tło dla nieparzystych */
+        }
+
+        #resources td a i {
+            font-size: 1.2em; /* Rozmiar ikony linku */
+            color: #007bff; /* Kolor ikony linku */
+            transition: color 0.2s;
+        }
+         #resources td a:hover i {
+             color: #0056b3; /* Zmiana koloru ikony po najechaniu */
+         }
+
+        /* --- Sekcja informacji o gatunku --- */
+        #info {
+            line-height: 1.6; /* Lepsza czytelność tekstu */
+            color: #333;
+        }
+
+        #info h3 { /* Style dla nagłówków w treści markdown */
+            margin-top: 25px;
+            color: #444;
+        }
+
+         #info ul {
+             padding-left: 20px;
+         }
+
+        /* --- Boczne linki społecznościowe --- */
+        .social-links {
+            position: fixed; /* Stała pozycja na ekranie */
+            right: 15px; /* Odstęp od prawej krawędzi */
+            top: 50%; /* Początkowa pozycja na środku */
+            transform: translateY(-50%); /* Dokładne wycentrowanie w pionie */
+            display: flex;
+            flex-direction: column; /* Ikony jedna pod drugą */
+            gap: 10px; /* Odstęp między ikonami */
+            background-color: rgba(255, 255, 255, 0.8); /* Lekko przezroczyste tło */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        .social-links a {
+            color: #333;
+            font-size: 1.5em; /* Rozmiar ikon */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #007bff; /* Kolor po najechaniu */
+        }
+
+         /* --- Stopka (opcjonalnie, jeśli chcesz dodać) --- */
+         footer {
+             text-align: center;
+             padding: 15px;
+             margin-top: 30px;
+             background-color: #333;
+             color: white;
+             font-size: 0.9em;
+             border-bottom-left-radius: 8px; /* Zaokrąglenie pasujące do kontenera */
+             border-bottom-right-radius: 8px;
+         }
+
+         /* --- Dostosowania dla mniejszych ekranów --- */
+         @media (max-width: 900px) {
+             .container {
+                 flex-direction: column; /* Zmiana układu na kolumnowy */
+                 margin: 10px;
+                 max-width: 100%;
+             }
+             nav.table-of-contents {
+                 width: 100%; /* Pełna szerokość */
+                 border-right: none; /* Usunięcie prawej ramki */
+                 border-bottom: 1px solid #ddd; /* Dodanie dolnej ramki */
+                 box-sizing: border-box; /* Uwzględnienie paddingu w szerokości */
+             }
+             main.content {
+                 padding: 20px;
+             }
+             .species-image-container {
+                 position: static; /* Normalne pozycjonowanie na małych ekranach */
+                 width: 150px; /* Mniejszy obrazek */
+                 float: right; /* Opływanie tekstem */
+                 margin-left: 15px;
+                 margin-bottom: 15px;
+             }
+             .section-header::before,
+             .section-header::after {
+                 width: 20%; /* Krótsze linie */
+             }
+            .social-links {
+                display: none; /* Ukrycie bocznych linków na małych ekranach */
+            }
+         }
+
+    </style>
+</head>
+<body>
+
+    <aside class="social-links">
+        <a href="#" title="Facebook" aria-label="Facebook"><i class="lucide lucide-facebook"></i></a>
+        <a href="#" title="Twitter" aria-label="Twitter"><i class="lucide lucide-twitter"></i></a>
+        <a href="#" title="Instagram" aria-label="Instagram"><i class="lucide lucide-instagram"></i></a>
+        </aside>
+
+    <div class="container">
+
+        <nav class="table-of-contents">
+            <h2>Spis treści</h2>
+            <ul>
+                <li><a href="#taxonomy">Taksonomia</a></li>
+                <li><a href="#resources">Zsekwencjonowane zasoby</a></li>
+                <li><a href="#info">Informacje o gatunku</a></li>
+                </ul>
+        </nav>
+
+        <main class="content">
+
+            {% if page.image %}
+            <aside class="species-image-container">
+                <img src="{{ page.image | relative_url }}" alt="[Zdjęcie {{ page.common_name }}]">
+                {% if page.image_attribution %}
+                <small>Atrybucja: {{ page.image_attribution }}</small>
+                {% endif %}
+            </aside>
+            {% endif %}
+
+            <h1>{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
+
+            <section id="taxonomy">
+                <h2 class="section-header">Taksonomia</h2>
+                <ul>
+                    <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                    <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
+                    <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
+                    <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
+                    <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
+                </ul>
+            </section>
+
+            <section id="resources">
+                <h2 class="section-header">Zsekwencjonowane zasoby</h2>
+                {% if page.samples and page.samples.size > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Typ danych</th>
+                            <th>Osobnik</th>
+                            <th>Bazy (Gbp)</th>
+                            <th>Pokrycie (x)</th>
+                            <th>Rozmiar (GiB/TiB)</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sample in page.samples %}
+                        <tr>
+                            <td>{{ sample.datatype | default: "-" }}</td>
+                            <td>{{ sample.individual | default: "-" }}</td>
+                            <td>{{ sample.bases | default: "-" }}</td>
+                            <td>{{ sample.coverage | default: "-" }}</td>
+                            <td>{{ sample.bytes | default: "-" }}</td>
+                            <td>
+                                {% if sample.url %}
+                                <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" title="Przejdź do zasobu">
+                                    <i class="lucide lucide-external-link"></i> </a>
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Brak dostępnych danych o zsekwencjonowanych zasobach dla tego gatunku.</p>
+                {% endif %}
+            </section>
+
+            <section id="info">
+                <h2 class="section-header">Informacje o gatunku</h2>
+                {{ content }} </section>
+
+        </main>
+
+    </div> </body>
+</html>

@@ -43,9 +43,9 @@
             background-color: #ccc;
             transform: translateY(-50%);
         }
-        /* Pozycja linii dla węższej kolumny treści (col-lg-8) */
-        .section-header::before { left: 0; }
-        .section-header::after { right: 0; }
+        /* Przywrócenie pozycji linii dla szerszej kolumny treści (col-lg-9) */
+        .section-header::before { left: 5%; }
+        .section-header::after { right: 5%; }
 
         /* Ukrywanie bocznych linków społecznościowych */
         .social-links {
@@ -86,103 +86,104 @@
     </nav>
 
     <div class="container mt-5">
-        <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-lg-11 mx-auto">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <nav id="tocNav" class="nav flex-column small">
+                             <h5 class="mt-2">Spis treści</h5>
+                             <ul class="list-unstyled">
+                                <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
+                                <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
+                                <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
+                             </ul>
+                        </nav>
+                    </div>
 
-            <div class="col-lg-3">
-                <nav id="tocNav" class="nav flex-column small">
-                     <h5 class="mt-2">Spis treści</h5>
-                     <ul class="list-unstyled">
-                        <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
-                        <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
-                        <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
-                     </ul>
-                </nav>
-            </div>
+                    <div class="col-lg-9">
 
-            <div class="col-lg-8">
-
-                <div class="d-lg-flex align-items-start mb-4">
-                    <div class="flex-grow-1">
-                        <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
-                        <section id="taxonomy">
-                            <h2 class="section-header">Taksonomia</h2>
-                            <ul class="list-unstyled">
-                                <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
-                                <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
-                                <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
-                                <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
-                                <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
-                            </ul>
+                        <div class="d-lg-flex align-items-start mb-4">
+                            <div class="flex-grow-1">
+                                <h1 class="mb-4">{{ page.common_name | capitalize }} (<i>{{ page.name }}</i>)</h1>
+                                <section id="taxonomy">
+                                    <h2 class="section-header">Taksonomia</h2>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Nazwa angielska:</strong> {{ page.common_name | default: "Brak danych" }}</li>
+                                        <li><strong>Nazwa łacińska:</strong> <i>{{ page.name | default: "Brak danych" }}</i></li>
+                                        <li><strong>Rząd:</strong> {{ page.order.name | default: "Brak danych" }}</li>
+                                        <li><strong>Rodzina:</strong> {{ page.family.name | default: "Brak danych" }}</li>
+                                        <li><strong>Taxon ID:</strong> {{ page.taxon_id | default: "Brak danych" }}</li>
+                                    </ul>
+                                </section>
+                            </div>
+                            {% if page.image %}
+                            <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
+                                <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
+                                {% if page.image_attribution %}
+                                <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
+                                {% endif %}
+                            </aside>
+                            {% endif %}
+                        </div> <section id="resources">
+                            <h2 class="section-header">Zsekwencjonowane zasoby</h2>
+                            {% if page.samples and page.samples.size > 0 %}
+                            <div class="table-responsive">
+                                 <table class="table table-striped table-hover table-sm">
+                                     <thead>
+                                        <tr>
+                                            <th>Typ danych</th>
+                                            <th>Osobnik</th>
+                                            <th>Bazy (Gbp)</th>
+                                            <th>Pokrycie (x)</th>
+                                            <th>Rozmiar (GiB/TiB)</th>
+                                            <th>Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for sample in page.samples %}
+                                        <tr>
+                                            <td>{{ sample.datatype | default: "-" }}</td>
+                                            <td>{{ sample.individual | default: "-" }}</td>
+                                            <td>{{ sample.bases | default: "-" }}</td>
+                                            <td>{{ sample.coverage | default: "-" }}</td>
+                                            <td>{{ sample.bytes | default: "-" }}</td>
+                                            <td>
+                                                {% if sample.url %}
+                                                <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" title="Przejdź do zasobu">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                                    </svg>
+                                                </a>
+                                                {% else %}
+                                                -
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <p class="alert alert-info">Brak dostępnych danych o zsekwencjonowanych zasobach dla tego gatunku.</p>
+                            {% endif %}
                         </section>
-                    </div>
-                    {% if page.image %}
-                    <aside class="ms-lg-3 text-center text-lg-start flex-shrink-0 mt-3 mt-lg-0">
-                        <img src="{{ page.image | relative_url }}" class="img-fluid rounded shadow-sm species-image" alt="[Zdjęcie {{ page.common_name | default: 'gatunku' }}]">
-                        {% if page.image_attribution %}
-                        <small class="d-block text-muted mt-1">Atrybucja: {{ page.image_attribution }}</small>
-                        {% endif %}
-                    </aside>
-                    {% endif %}
-                </div> <section id="resources">
-                    <h2 class="section-header">Zsekwencjonowane zasoby</h2>
-                    {% if page.samples and page.samples.size > 0 %}
-                    <div class="table-responsive">
-                         <table class="table table-striped table-hover table-sm">
-                             <thead>
-                                <tr>
-                                    <th>Typ danych</th>
-                                    <th>Osobnik</th>
-                                    <th>Bazy (Gbp)</th>
-                                    <th>Pokrycie (x)</th>
-                                    <th>Rozmiar (GiB/TiB)</th>
-                                    <th>Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sample in page.samples %}
-                                <tr>
-                                    <td>{{ sample.datatype | default: "-" }}</td>
-                                    <td>{{ sample.individual | default: "-" }}</td>
-                                    <td>{{ sample.bases | default: "-" }}</td>
-                                    <td>{{ sample.coverage | default: "-" }}</td>
-                                    <td>{{ sample.bytes | default: "-" }}</td>
-                                    <td>
-                                        {% if sample.url %}
-                                        <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" title="Przejdź do zasobu">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                                            </svg>
-                                        </a>
-                                        {% else %}
-                                        -
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <p class="alert alert-info">Brak dostępnych danych o zsekwencjonowanych zasobach dla tego gatunku.</p>
-                    {% endif %}
-                </section>
 
-                <section id="info">
-                    <h2 class="section-header">Informacje o gatunku</h2>
-                    <div class="markdown-content">
-                         {{ content }}
-                    </div>
-                </section>
+                        <section id="info">
+                            <h2 class="section-header">Informacje o gatunku</h2>
+                            <div class="markdown-content">
+                                 {{ content }}
+                            </div>
+                        </section>
 
-                <div class="mt-5 text-center">
-                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
-                         Dodaj komentarz
-                     </button>
-                </div>
+                        <div class="mt-5 text-center">
+                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
+                                 Dodaj komentarz
+                             </button>
+                        </div>
 
-            </div> </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
+                    </div> </div> </div> </div> </div> <footer class="bg-dark text-white text-center p-3 mt-5">
         <div class="container">
              <p class="mb-0">Autor: Tomasz Żyliński</p>
         </div>

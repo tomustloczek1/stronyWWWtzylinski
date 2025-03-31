@@ -187,8 +187,7 @@ layout: default
         </div>
         <img
           id="species-image"
-          src="{{ site.baseurl }}{{ page.image }}"
-          alt="{{ page.image_attribution }}"
+          src="{{ page.image | relative_url }}"}"
         />
         <p>Image attribution: {{ page.image_attribution }}</p>
         <section id="taxonomy">

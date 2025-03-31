@@ -13,7 +13,7 @@ individuals:
     sex:
 project: [ vgp ]
 layout: species
-image: /assets/img/borostomias_antarcticus.jpg
+image: /stronyWWWtzylinski/assets/img/borostomias_antarcticus.jpg
 image_attribution: CC BY-NC-SA 4.0 Gonzalo Mucientes Sandova
 samples:
   - datatype: PacBio HiFi 

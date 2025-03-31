@@ -1,0 +1,214 @@
+---
+layout: default
+---
+
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    display: flex;
+    margin: 20px;
+  }
+
+  .left-column {
+    width: 20%;
+    padding-right: 20px;
+  }
+
+  .right-column {
+    width: 80%;
+  }
+
+  #table-resources {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  #table-resources th,
+  #table-resources td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #table-resources thead {
+    background-color: #007bff;
+    color: white;
+  }
+
+  #table-resources tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #table-resources tbody tr:nth-child(odd) {
+    background-color: transparent;
+  }
+
+  .header-section {
+    text-align: center;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-section h1 {
+    margin: 0 10px;
+  }
+
+  .header-section::before,
+  .header-section::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+  }
+
+  #species-image {
+    float: right;
+    max-width: 200px;
+    height: auto;
+    margin: 0 0 20px 20px;
+    border-radius: 5px;
+  }
+
+  #social-icons {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #social-icons a {
+    color: #333;
+    font-size: 24px;
+  }
+
+  #table-resources a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  #table-resources a:hover {
+    text-decoration: underline;
+  }
+  
+  .toc-link:hover {
+    background-color: #f0f0f0;
+  }
+</style>
+
+<div class="container">
+  <div class="left-column">
+    <h2>Spis treści</h2>
+    <ul id="toc">
+      <li><a href="#species-name" class="toc-link">Nazwa gatunku</a></li>
+      <li><a href="#taxonomy" class="toc-link">Taksonomia</a></li>
+      <li><a href="#sequenced-resources" class="toc-link">Zsekwencjonowane zasoby</a></li>
+      <li><a href="#species-information" class="toc-link">Informacje o gatunku</a></li>
+    </ul>
+  </div>
+  <div class="right-column">
+    <div class="header-section" id="species-name">
+      <h1>{{ page.name }}</h1>
+    </div>
+    <img
+      id="species-image"
+      src="{{ page.image | relative_url }}"
+      alt="{{ page.image_attribution }}"
+    />
+    <p>Image attribution: {{ page.image_attribution }}</p>
+    <section id="taxonomy">
+      <h2>Taksonomia</h2>
+      <p>
+        Rząd: {{ page.order.name }}<br />
+        Rodzina: {{ page.family.name }}<br />
+        Nazwa gatunku: {{ page.name }} (<i>{{ page.common_name }}</i>)
+      </p>
+    </section>
+    <section id="sequenced-resources">
+      <h2>Zsekwencjonowane zasoby</h2>
+      <table id="table-resources">
+        <thead>
+          <tr>
+            <th>Typ danych</th>
+            <th>Indywidualny</th>
+            <th>Zasady</th>
+            <th>Pokrycie</th>
+            <th>Rozmiar</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sample in page.samples %}
+          <tr>
+            <td>{{ sample.datatype }}</td>
+            <td>{{ sample.individual }}</td>
+            <td>{{ sample.bases }}</td>
+            <td>{{ sample.coverage }}</td>
+            <td>{{ sample.bytes }}</td>
+            <td>
+              <a href="{{ sample.url }}">
+                Zobacz zasoby
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    <section id="species-information">
+      <h2>Informacje o gatunku</h2>
+      {{ content }}
+    </section>
+  </div>
+</div>
+
+<div id="social-icons">
+  <a href="https://www.facebook.com/" title="Facebook"
+    ><i class="fab fa-facebook"></i
+  ></a>
+  <a href="https://twitter.com/" title="Twitter"
+    ><i class="fab fa-twitter"></i
+  ></a>
+  <a href="https://www.instagram.com/" title="Instagram"
+    ><i class="fab fa-instagram"></i
+  ></a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toc = document.getElementById("toc");
+    const sections = document.querySelectorAll("section");
+
+    function updateToc() {
+      const currentSectionId = Array.from(sections)
+        .reverse()
+        .find((section) => {
+          const sectionTop = section.offsetTop;
+          const scrollY = window.scrollY;
+          return sectionTop <= scrollY + 100;
+        })?.getAttribute("id");
+
+      const tocLinks = toc.querySelectorAll("a");
+      tocLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").slice(1) === currentSectionId) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateToc);
+  });
+</script>

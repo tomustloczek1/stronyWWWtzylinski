@@ -30,8 +30,6 @@ samples:
     url: https://42basepairs.com/browse/s3/genomeark/species/Borostomias_antarcticus/fBorAnt1/genomic_data/arima
 ---
 
-# *Borostomias antarcticus* (Antarctic Dragonfish)
-
 *Borostomias antarcticus*, also known as the Antarctic Dragonfish, is a deep-sea predatory fish belonging to the Stomiidae family. It inhabits the cold, dark waters of the Southern Ocean, particularly around Antarctica.
 
 ### Description

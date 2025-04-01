@@ -13,20 +13,20 @@
 
         body {
             position: relative;
-            padding-left: var(--toc-width); /* Dodajemy padding, aby treść nie wchodziła pod ToC */
+            padding-left: var(--toc-width);
         }
 
         #tocNav {
-            position: fixed; /* Stała pozycja */
+            position: fixed;
             left: 0;
-            top: var(--navbar-height); /* Pozycja pod navbarem */
-            width: var(--toc-width); /* Ustalona szerokość */
-            height: calc(100vh - var(--navbar-height)); /* Wysokość poniżej navbara */
-            overflow-y: auto; /* Przewijanie dla długiego spisu */
-            background-color: #f8f9fa; /* Jasne tło dla odróżnienia */
-            border-right: 1px solid #dee2e6; /* Linia oddzielająca */
-            padding: 1rem; /* Wewnętrzny padding */
-            z-index: 1000; /* Upewnienie się, że jest nad treścią */
+            top: var(--navbar-height);
+            width: var(--toc-width);
+            height: calc(100vh - var(--navbar-height));
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 1rem;
+            z-index: 1000;
         }
 
         #tocNav .nav-link {
@@ -59,7 +59,7 @@
             margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             position: relative;
-            padding-left: 5%; /* Padding, aby tekst nie dochodził do linii */
+            padding-left: 5%;
             padding-right: 5%;
         }
         .section-header::before,
@@ -67,16 +67,14 @@
             content: "";
             position: absolute;
             top: 50%;
-            width: 25%; /* Zmniejszona szerokość linii */
+            width: 25%;
             height: 1px;
             background-color: #ccc;
             transform: translateY(-50%);
         }
-        /* Pozycja linii dla kolumny treści col-lg-9 */
         .section-header::before { left: 5%; }
         .section-header::after { right: 5%; }
 
-        /* Stopka */
         footer {
             text-align: center;
             padding: 15px;
@@ -86,41 +84,38 @@
             font-size: 0.9em;
         }
 
-        /* --- Boczne linki społecznościowe --- */
         .social-links {
-            position: fixed; /* Stała pozycja na ekranie */
-            right: 15px; /* Odstęp od prawej krawędzi */
-            top: 50%; /* Początkowa pozycja na środku */
-            transform: translateY(-50%); /* Dokładne wycentrowanie w pionie */
-            display: flex; /* Ustawienie widoczności */
-            flex-direction: column; /* Ikony jedna pod drugą */
-            gap: 10px; /* Odstęp między ikonami */
-            background-color: rgba(255, 255, 255, 0.8); /* Lekko przezroczyste tło */
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            z-index: 1021; /* Wyżej niż navbar i ToC */
+            z-index: 1021;
         }
 
         .social-links a {
             color: #333;
-            display: inline-block; /* Potrzebne dla SVG */
-            line-height: 0; /* Usunięcie dodatkowej przestrzeni pod SVG */
+            display: inline-block;
+            line-height: 0;
         }
 
-        /* Stylizacja ikon społecznościowych (SVG) */
         .social-links a svg {
-            width: 24px; /* Stały rozmiar ikon społecznościowych */
+            width: 24px;
             height: 24px;
-            fill: currentColor; /* Kolor dziedziczony z linku 'a' */
+            fill: currentColor;
             transition: color 0.3s ease;
         }
 
         .social-links a:hover {
-            color: #007bff; /* Kolor linku (i ikony SVG) po najechaniu */
+            color: #007bff;
         }
 
-        /* DODANE: Usuwanie ikon walidacji Bootstrap */
         .form-control.is-valid, .was-validated .form-control:valid,
         .form-select.is-valid, .was-validated .form-select:valid {
             background-image: none !important;
@@ -129,7 +124,6 @@
         .form-select.is-invalid, .was-validated .form-select:invalid {
              background-image: none !important;
         }
-        /* Koniec usuwania ikon walidacji */
 
 
         @media (max-width: 991.98px) {
@@ -137,7 +131,7 @@
                 padding-left: 0;
             }
             #tocNav {
-                display: none; /* Ukrywamy stały ToC */
+                display: none;
             }
         }
 
@@ -178,9 +172,9 @@
     <nav id="tocNav" class="nav flex-column small d-none d-lg-block">
          <h5 class="mt-2">Spis treści</h5>
          <ul class="list-unstyled">
-            <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
-            <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
-            <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
+             <li><a class="nav-link" href="#taxonomy">Taksonomia</a></li>
+             <li><a class="nav-link" href="#resources">Zsekwencjonowane zasoby</a></li>
+             <li><a class="nav-link" href="#info">Informacje o gatunku</a></li>
          </ul>
     </nav>
 
@@ -217,40 +211,40 @@
                     <div class="table-responsive">
                          <table class="table table-striped table-hover table-sm">
                              <thead>
-                                <tr>
-                                    <th>Typ danych</th>
-                                    <th>Osobnik</th>
-                                    <th>Bazy (Gbp)</th>
-                                    <th>Pokrycie (x)</th>
-                                    <th>Rozmiar (GiB/TiB)</th>
-                                    <th>Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sample in page.samples %}
-                                <tr>
-                                    <td>{{ sample.datatype | default: "-" }}</td>
-                                    <td>{{ sample.individual | default: "-" }}</td>
-                                    <td>{{ sample.bases | default: "-" }}</td>
-                                    <td>{{ sample.coverage | default: "-" }}</td>
-                                    <td>{{ sample.bytes | default: "-" }}</td>
-                                    <td>
-                                        {% if sample.url %}
-                                        <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" title="Przejdź do zasobu">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                                            </svg>
-                                        </a>
-                                        {% else %}
-                                        -
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                 <tr>
+                                     <th>Typ danych</th>
+                                     <th>Osobnik</th>
+                                     <th>Bazy (Gbp)</th>
+                                     <th>Pokrycie (x)</th>
+                                     <th>Rozmiar (GiB/TiB)</th>
+                                     <th>Link</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 {% for sample in page.samples %}
+                                 <tr>
+                                     <td>{{ sample.datatype | default: "-" }}</td>
+                                     <td>{{ sample.individual | default: "-" }}</td>
+                                     <td>{{ sample.bases | default: "-" }}</td>
+                                     <td>{{ sample.coverage | default: "-" }}</td>
+                                     <td>{{ sample.bytes | default: "-" }}</td>
+                                     <td>
+                                         {% if sample.url %}
+                                         <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" title="Przejdź do zasobu">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                 <polyline points="15 3 21 3 21 9"></polyline>
+                                                 <line x1="10" y1="14" x2="21" y2="3"></line>
+                                             </svg>
+                                         </a>
+                                         {% else %}
+                                         -
+                                         {% endif %}
+                                     </td>
+                                 </tr>
+                                 {% endfor %}
+                             </tbody>
+                         </table>
                     </div>
                     {% else %}
                     <p class="alert alert-info">Brak dostępnych danych o zsekwencjonowanych zasobach dla tego gatunku.</p>
@@ -260,13 +254,13 @@
                 <section id="info">
                     <h2 class="section-header">Informacje o gatunku</h2>
                     <div class="markdown-content">
-                         {{ content }}
+                          {{ content }}
                     </div>
                 </section>
 
                 <div class="mt-5 text-center">
                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
-                         Dodaj komentarz
+                          Dodaj komentarz
                      </button>
                 </div>
 
